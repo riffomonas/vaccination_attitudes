@@ -3,7 +3,7 @@ library(showtext)
 library(ggtext)
 
 font_add_google(family="patua-one", "Patua One")
-font_add_google(family="roboto", "Roboto")
+font_add_google(family="montserrat", "Montserrat")
 
 showtext_auto()
 
@@ -27,9 +27,10 @@ data %>%
        caption = "<i>Base: 18,526 online adults aged 16-74 across 15 countries</i><br>Source: Ipsos",
        tag = NULL, 
        x = NULL,
-       y= "Pecent willing to receive vaccine",
+       y= "Percent willing to receive vaccine",
        color = NULL) +
   theme(
+    text = element_text(family = "montserrat"),
     plot.title = element_textbox_simple(family = "patua-one", size=28,
                                         lineheight = 1,
                                         margin = margin(b=10)),
