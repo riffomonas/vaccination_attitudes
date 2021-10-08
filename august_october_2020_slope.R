@@ -29,6 +29,15 @@ data %>%
        x = NULL,
        y= "Percent willing to receive vaccine",
        color = NULL) +
+  scale_x_discrete(breaks = c("august", "october"),
+                   labels = c("August '20", "October '20"),
+                   expand = c(0.1,0.1)) +
+  scale_y_continuous(limits = c(50, 100),
+                     breaks = seq(50, 100, by=10),
+                     minor_breaks = NULL,
+                     expand = c(0.03, 0.03)) +
+  # ylim(60, 90) +
+  # coord_cartesian(ylim = c(60, 90)) +
   theme(
     text = element_text(family = "montserrat"),
     plot.title = element_textbox_simple(family = "patua-one", size=28,
