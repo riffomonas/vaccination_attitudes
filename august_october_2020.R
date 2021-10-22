@@ -17,50 +17,48 @@ data <- read_csv("august_october_2020.csv") %>%
                           "South Korea" = "S. Korea",
                           "South Africa" = "S. Africa",
                           "United Kingdom" = "UK",
-                          "United States" = "USA"))
+                          "United States" = "USA"),
+         change = october - august,
+         country = fct_reorder(country, -change))
 
-legend <- tibble(x = c(90, 100),
-                 y = c(100, 95),
+legend <- tibble(x = c(2.75, -3),
+                 y = c(14, 14),
                  label = c("Increasing\nintention", "Decreasing\nintention"))
 
 data %>%
-  ggplot(aes(x=august, y=october, label=country)) +
-  geom_abline(slope=1, intercept = 0, color="#AAAAAA", size =0.25) + 
+  ggplot(aes(x=change, y=country)) +
+  # geom_abline(slope=1, intercept = 0, color="#AAAAAA", size =0.25) + 
+  geom_vline(xintercept = 0, size=0.25, color="#AAAAAA") +
+  geom_hline(aes(yintercept = country), size=0.05, color="#AAAAAA") +
   geom_point() +
-  geom_label_repel(min.segment.length = 0,
-                   max.overlaps = Inf,
-                   label.size = 0,
-                   label.padding = 0.1,
-                   label.r = 0,
-                   size=3.5,
-                   family = "montserrat") +
-  coord_fixed(xlim=c(50, 100), ylim=c(50, 100), clip="off") +
+  coord_cartesian(xlim=c(-15, 5)) +
   labs(title = "COVID-19 vaccination intent is decreasing globally",
        subtitle = NULL,
        caption = "<i>Base: 18,526 online adults aged 16-74 across 15 countries</i><br>Source: Ipsos",
        tag = NULL, 
-       x = "Percent willing to receive<br>vaccine in August 2020",
-       y= "Percent willing to receive<br>vaccine in October 2020",
+       x = "Percentage point change in intention to receive<br>COVID-19 vaccine between August and October 2020",
+       y= NULL,
        color = NULL) +
   theme(
     text = element_text(family = "montserrat"),
-    plot.title = element_textbox_simple(family = "patua-one", size=25,
+    plot.title = element_textbox_simple(family = "patua-one", size=28,
                                         lineheight = 1,
-                                        margin = margin(b=20, t=10)),
+                                        margin = margin(b=10)),
     plot.title.position = "plot",
     plot.caption = element_markdown(hjust = 0, color="gray",
                                     margin= margin(t=10)),
     plot.caption.position = "plot",
     axis.title.x = element_markdown(),
-    axis.title.y = element_markdown(),
     axis.ticks = element_blank(),
     axis.line = element_line(),
     panel.background = element_rect(fill="#FFFFFF")
   ) +
-  geom_text(data =  legend,
+  geom_label(data =  legend,
             mapping = aes(x = x, y=y, label=label),
             color = "#AAAAAA",
-            hjust = 0,
+            label.padding = unit(2, "pt"),
+            label.size = 0,
+            hjust = c(1, 0),
             lineheight = 1,
             family = "montserrat",
             size = 2,
